@@ -15,154 +15,153 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
---SET search_path = public, pg_catalog;
-SET search_path = dvdrental;
+SET search_path = public, pg_catalog;
 
-ALTER TABLE ONLY dvdrental.store DROP CONSTRAINT store_manager_staff_id_fkey;
-ALTER TABLE ONLY dvdrental.store DROP CONSTRAINT store_address_id_fkey;
-ALTER TABLE ONLY dvdrental.staff DROP CONSTRAINT staff_address_id_fkey;
-ALTER TABLE ONLY dvdrental.rental DROP CONSTRAINT rental_staff_id_key;
-ALTER TABLE ONLY dvdrental.rental DROP CONSTRAINT rental_inventory_id_fkey;
-ALTER TABLE ONLY dvdrental.rental DROP CONSTRAINT rental_customer_id_fkey;
-ALTER TABLE ONLY dvdrental.payment DROP CONSTRAINT payment_staff_id_fkey;
-ALTER TABLE ONLY dvdrental.payment DROP CONSTRAINT payment_rental_id_fkey;
-ALTER TABLE ONLY dvdrental.payment DROP CONSTRAINT payment_customer_id_fkey;
-ALTER TABLE ONLY dvdrental.inventory DROP CONSTRAINT inventory_film_id_fkey;
-ALTER TABLE ONLY dvdrental.city DROP CONSTRAINT fk_city;
-ALTER TABLE ONLY dvdrental.address DROP CONSTRAINT fk_address_city;
-ALTER TABLE ONLY dvdrental.film DROP CONSTRAINT film_language_id_fkey;
-ALTER TABLE ONLY dvdrental.film_category DROP CONSTRAINT film_category_film_id_fkey;
-ALTER TABLE ONLY dvdrental.film_category DROP CONSTRAINT film_category_category_id_fkey;
-ALTER TABLE ONLY dvdrental.film_actor DROP CONSTRAINT film_actor_film_id_fkey;
-ALTER TABLE ONLY dvdrental.film_actor DROP CONSTRAINT film_actor_actor_id_fkey;
-ALTER TABLE ONLY dvdrental.customer DROP CONSTRAINT customer_address_id_fkey;
-DROP TRIGGER last_updated ON dvdrental.store;
-DROP TRIGGER last_updated ON dvdrental.staff;
-DROP TRIGGER last_updated ON dvdrental.rental;
-DROP TRIGGER last_updated ON dvdrental.language;
-DROP TRIGGER last_updated ON dvdrental.inventory;
-DROP TRIGGER last_updated ON dvdrental.film_category;
-DROP TRIGGER last_updated ON dvdrental.film_actor;
-DROP TRIGGER last_updated ON dvdrental.film;
-DROP TRIGGER last_updated ON dvdrental.customer;
-DROP TRIGGER last_updated ON dvdrental.country;
-DROP TRIGGER last_updated ON dvdrental.city;
-DROP TRIGGER last_updated ON dvdrental.category;
-DROP TRIGGER last_updated ON dvdrental.address;
-DROP TRIGGER last_updated ON dvdrental.actor;
-DROP TRIGGER film_fulltext_trigger ON dvdrental.film;
-DROP INDEX dvdrental.idx_unq_rental_rental_date_inventory_id_customer_id;
-DROP INDEX dvdrental.idx_unq_manager_staff_id;
-DROP INDEX dvdrental.idx_title;
-DROP INDEX dvdrental.idx_store_id_film_id;
-DROP INDEX dvdrental.idx_last_name;
-DROP INDEX dvdrental.idx_fk_store_id;
-DROP INDEX dvdrental.idx_fk_staff_id;
-DROP INDEX dvdrental.idx_fk_rental_id;
-DROP INDEX dvdrental.idx_fk_language_id;
-DROP INDEX dvdrental.idx_fk_inventory_id;
-DROP INDEX dvdrental.idx_fk_film_id;
-DROP INDEX dvdrental.idx_fk_customer_id;
-DROP INDEX dvdrental.idx_fk_country_id;
-DROP INDEX dvdrental.idx_fk_city_id;
-DROP INDEX dvdrental.idx_fk_address_id;
-DROP INDEX dvdrental.idx_actor_last_name;
-DROP INDEX dvdrental.film_fulltext_idx;
-ALTER TABLE ONLY dvdrental.store DROP CONSTRAINT store_pkey;
-ALTER TABLE ONLY dvdrental.staff DROP CONSTRAINT staff_pkey;
-ALTER TABLE ONLY dvdrental.rental DROP CONSTRAINT rental_pkey;
-ALTER TABLE ONLY dvdrental.payment DROP CONSTRAINT payment_pkey;
-ALTER TABLE ONLY dvdrental.language DROP CONSTRAINT language_pkey;
-ALTER TABLE ONLY dvdrental.inventory DROP CONSTRAINT inventory_pkey;
-ALTER TABLE ONLY dvdrental.film DROP CONSTRAINT film_pkey;
-ALTER TABLE ONLY dvdrental.film_category DROP CONSTRAINT film_category_pkey;
-ALTER TABLE ONLY dvdrental.film_actor DROP CONSTRAINT film_actor_pkey;
-ALTER TABLE ONLY dvdrental.customer DROP CONSTRAINT customer_pkey;
-ALTER TABLE ONLY dvdrental.country DROP CONSTRAINT country_pkey;
-ALTER TABLE ONLY dvdrental.city DROP CONSTRAINT city_pkey;
-ALTER TABLE ONLY dvdrental.category DROP CONSTRAINT category_pkey;
-ALTER TABLE ONLY dvdrental.address DROP CONSTRAINT address_pkey;
-ALTER TABLE ONLY dvdrental.actor DROP CONSTRAINT actor_pkey;
-DROP VIEW dvdrental.staff_list;
-DROP VIEW dvdrental.sales_by_store;
-DROP TABLE dvdrental.store;
-DROP SEQUENCE dvdrental.store_store_id_seq;
-DROP TABLE dvdrental.staff;
-DROP SEQUENCE dvdrental.staff_staff_id_seq;
-DROP VIEW dvdrental.sales_by_film_category;
-DROP TABLE dvdrental.rental;
-DROP SEQUENCE dvdrental.rental_rental_id_seq;
-DROP TABLE dvdrental.payment;
-DROP SEQUENCE dvdrental.payment_payment_id_seq;
-DROP VIEW dvdrental.nicer_but_slower_film_list;
-DROP TABLE dvdrental.language;
-DROP SEQUENCE dvdrental.language_language_id_seq;
-DROP TABLE dvdrental.inventory;
-DROP SEQUENCE dvdrental.inventory_inventory_id_seq;
-DROP VIEW dvdrental.film_list;
-DROP VIEW dvdrental.customer_list;
-DROP TABLE dvdrental.country;
-DROP SEQUENCE dvdrental.country_country_id_seq;
-DROP TABLE dvdrental.city;
-DROP SEQUENCE dvdrental.city_city_id_seq;
-DROP TABLE dvdrental.address;
-DROP SEQUENCE dvdrental.address_address_id_seq;
-DROP VIEW dvdrental.actor_info;
-DROP TABLE dvdrental.film_category;
-DROP TABLE dvdrental.film_actor;
-DROP TABLE dvdrental.film;
-DROP SEQUENCE dvdrental.film_film_id_seq;
-DROP TABLE dvdrental.category;
-DROP SEQUENCE dvdrental.category_category_id_seq;
-DROP TABLE dvdrental.actor;
-DROP SEQUENCE dvdrental.actor_actor_id_seq;
-DROP AGGREGATE dvdrental.group_concat(text);
-DROP FUNCTION dvdrental.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric);
-DROP TABLE dvdrental.customer;
-DROP SEQUENCE dvdrental.customer_customer_id_seq;
-DROP FUNCTION dvdrental.last_updated();
-DROP FUNCTION dvdrental.last_day(timestamp without time zone);
-DROP FUNCTION dvdrental.inventory_in_stock(p_inventory_id integer);
-DROP FUNCTION dvdrental.inventory_held_by_customer(p_inventory_id integer);
-DROP FUNCTION dvdrental.get_customer_balance(p_customer_id integer, p_effective_date timestamp without time zone);
-DROP FUNCTION dvdrental.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer);
-DROP FUNCTION dvdrental.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer);
-DROP FUNCTION dvdrental._group_concat(text, text);
-DROP DOMAIN dvdrental.year;
-DROP TYPE dvdrental.mpaa_rating;
---DROP EXTENSION plpgsql;
---DROP SCHEMA public;
+ALTER TABLE ONLY public.store DROP CONSTRAINT store_manager_staff_id_fkey;
+ALTER TABLE ONLY public.store DROP CONSTRAINT store_address_id_fkey;
+ALTER TABLE ONLY public.staff DROP CONSTRAINT staff_address_id_fkey;
+ALTER TABLE ONLY public.rental DROP CONSTRAINT rental_staff_id_key;
+ALTER TABLE ONLY public.rental DROP CONSTRAINT rental_inventory_id_fkey;
+ALTER TABLE ONLY public.rental DROP CONSTRAINT rental_customer_id_fkey;
+ALTER TABLE ONLY public.payment DROP CONSTRAINT payment_staff_id_fkey;
+ALTER TABLE ONLY public.payment DROP CONSTRAINT payment_rental_id_fkey;
+ALTER TABLE ONLY public.payment DROP CONSTRAINT payment_customer_id_fkey;
+ALTER TABLE ONLY public.inventory DROP CONSTRAINT inventory_film_id_fkey;
+ALTER TABLE ONLY public.city DROP CONSTRAINT fk_city;
+ALTER TABLE ONLY public.address DROP CONSTRAINT fk_address_city;
+ALTER TABLE ONLY public.film DROP CONSTRAINT film_language_id_fkey;
+ALTER TABLE ONLY public.film_category DROP CONSTRAINT film_category_film_id_fkey;
+ALTER TABLE ONLY public.film_category DROP CONSTRAINT film_category_category_id_fkey;
+ALTER TABLE ONLY public.film_actor DROP CONSTRAINT film_actor_film_id_fkey;
+ALTER TABLE ONLY public.film_actor DROP CONSTRAINT film_actor_actor_id_fkey;
+ALTER TABLE ONLY public.customer DROP CONSTRAINT customer_address_id_fkey;
+DROP TRIGGER last_updated ON public.store;
+DROP TRIGGER last_updated ON public.staff;
+DROP TRIGGER last_updated ON public.rental;
+DROP TRIGGER last_updated ON public.language;
+DROP TRIGGER last_updated ON public.inventory;
+DROP TRIGGER last_updated ON public.film_category;
+DROP TRIGGER last_updated ON public.film_actor;
+DROP TRIGGER last_updated ON public.film;
+DROP TRIGGER last_updated ON public.customer;
+DROP TRIGGER last_updated ON public.country;
+DROP TRIGGER last_updated ON public.city;
+DROP TRIGGER last_updated ON public.category;
+DROP TRIGGER last_updated ON public.address;
+DROP TRIGGER last_updated ON public.actor;
+DROP TRIGGER film_fulltext_trigger ON public.film;
+DROP INDEX public.idx_unq_rental_rental_date_inventory_id_customer_id;
+DROP INDEX public.idx_unq_manager_staff_id;
+DROP INDEX public.idx_title;
+DROP INDEX public.idx_store_id_film_id;
+DROP INDEX public.idx_last_name;
+DROP INDEX public.idx_fk_store_id;
+DROP INDEX public.idx_fk_staff_id;
+DROP INDEX public.idx_fk_rental_id;
+DROP INDEX public.idx_fk_language_id;
+DROP INDEX public.idx_fk_inventory_id;
+DROP INDEX public.idx_fk_film_id;
+DROP INDEX public.idx_fk_customer_id;
+DROP INDEX public.idx_fk_country_id;
+DROP INDEX public.idx_fk_city_id;
+DROP INDEX public.idx_fk_address_id;
+DROP INDEX public.idx_actor_last_name;
+DROP INDEX public.film_fulltext_idx;
+ALTER TABLE ONLY public.store DROP CONSTRAINT store_pkey;
+ALTER TABLE ONLY public.staff DROP CONSTRAINT staff_pkey;
+ALTER TABLE ONLY public.rental DROP CONSTRAINT rental_pkey;
+ALTER TABLE ONLY public.payment DROP CONSTRAINT payment_pkey;
+ALTER TABLE ONLY public.language DROP CONSTRAINT language_pkey;
+ALTER TABLE ONLY public.inventory DROP CONSTRAINT inventory_pkey;
+ALTER TABLE ONLY public.film DROP CONSTRAINT film_pkey;
+ALTER TABLE ONLY public.film_category DROP CONSTRAINT film_category_pkey;
+ALTER TABLE ONLY public.film_actor DROP CONSTRAINT film_actor_pkey;
+ALTER TABLE ONLY public.customer DROP CONSTRAINT customer_pkey;
+ALTER TABLE ONLY public.country DROP CONSTRAINT country_pkey;
+ALTER TABLE ONLY public.city DROP CONSTRAINT city_pkey;
+ALTER TABLE ONLY public.category DROP CONSTRAINT category_pkey;
+ALTER TABLE ONLY public.address DROP CONSTRAINT address_pkey;
+ALTER TABLE ONLY public.actor DROP CONSTRAINT actor_pkey;
+DROP VIEW public.staff_list;
+DROP VIEW public.sales_by_store;
+DROP TABLE public.store;
+DROP SEQUENCE public.store_store_id_seq;
+DROP TABLE public.staff;
+DROP SEQUENCE public.staff_staff_id_seq;
+DROP VIEW public.sales_by_film_category;
+DROP TABLE public.rental;
+DROP SEQUENCE public.rental_rental_id_seq;
+DROP TABLE public.payment;
+DROP SEQUENCE public.payment_payment_id_seq;
+DROP VIEW public.nicer_but_slower_film_list;
+DROP TABLE public.language;
+DROP SEQUENCE public.language_language_id_seq;
+DROP TABLE public.inventory;
+DROP SEQUENCE public.inventory_inventory_id_seq;
+DROP VIEW public.film_list;
+DROP VIEW public.customer_list;
+DROP TABLE public.country;
+DROP SEQUENCE public.country_country_id_seq;
+DROP TABLE public.city;
+DROP SEQUENCE public.city_city_id_seq;
+DROP TABLE public.address;
+DROP SEQUENCE public.address_address_id_seq;
+DROP VIEW public.actor_info;
+DROP TABLE public.film_category;
+DROP TABLE public.film_actor;
+DROP TABLE public.film;
+DROP SEQUENCE public.film_film_id_seq;
+DROP TABLE public.category;
+DROP SEQUENCE public.category_category_id_seq;
+DROP TABLE public.actor;
+DROP SEQUENCE public.actor_actor_id_seq;
+DROP AGGREGATE public.group_concat(text);
+DROP FUNCTION public.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric);
+DROP TABLE public.customer;
+DROP SEQUENCE public.customer_customer_id_seq;
+DROP FUNCTION public.last_updated();
+DROP FUNCTION public.last_day(timestamp without time zone);
+DROP FUNCTION public.inventory_in_stock(p_inventory_id integer);
+DROP FUNCTION public.inventory_held_by_customer(p_inventory_id integer);
+DROP FUNCTION public.get_customer_balance(p_customer_id integer, p_effective_date timestamp without time zone);
+DROP FUNCTION public.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer);
+DROP FUNCTION public.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer);
+DROP FUNCTION public._group_concat(text, text);
+DROP DOMAIN public.year;
+DROP TYPE public.mpaa_rating;
+DROP EXTENSION plpgsql;
+DROP SCHEMA public;
 --
 -- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
---CREATE SCHEMA public;
+CREATE SCHEMA public;
 
 
---ALTER SCHEMA public OWNER TO postgres;
+ALTER SCHEMA public OWNER TO postgres;
 
 --
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 --
 
---COMMENT ON SCHEMA public IS 'Standard public schema';
+COMMENT ON SCHEMA public IS 'Standard public schema';
 
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
---CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
---COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---SET search_path = public, pg_catalog;
+SET search_path = public, pg_catalog;
 
 --
 -- Name: mpaa_rating; Type: TYPE; Schema: public; Owner: postgres
@@ -177,7 +176,7 @@ CREATE TYPE mpaa_rating AS ENUM (
 );
 
 
---ALTER TYPE dvdrental.mpaa_rating OWNER TO postgres;
+ALTER TYPE public.mpaa_rating OWNER TO postgres;
 
 --
 -- Name: year; Type: DOMAIN; Schema: public; Owner: postgres
@@ -187,7 +186,7 @@ CREATE DOMAIN year AS integer
 	CONSTRAINT year_check CHECK (((VALUE >= 1901) AND (VALUE <= 2155)));
 
 
---ALTER DOMAIN dvdrental.year OWNER TO postgres;
+ALTER DOMAIN public.year OWNER TO postgres;
 
 --
 -- Name: _group_concat(text, text); Type: FUNCTION; Schema: public; Owner: postgres
@@ -204,7 +203,7 @@ END
 $_$;
 
 
---ALTER FUNCTION dvdrental._group_concat(text, text) OWNER TO postgres;
+ALTER FUNCTION public._group_concat(text, text) OWNER TO postgres;
 
 --
 -- Name: film_in_stock(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -221,7 +220,7 @@ CREATE FUNCTION film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_
 $_$;
 
 
---ALTER FUNCTION dvdrental.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer) OWNER TO postgres;
+ALTER FUNCTION public.film_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer) OWNER TO postgres;
 
 --
 -- Name: film_not_in_stock(integer, integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -238,7 +237,7 @@ CREATE FUNCTION film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_f
 $_$;
 
 
---ALTER FUNCTION dvdrental.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer) OWNER TO postgres;
+ALTER FUNCTION public.film_not_in_stock(p_film_id integer, p_store_id integer, OUT p_film_count integer) OWNER TO postgres;
 
 --
 -- Name: get_customer_balance(integer, timestamp without time zone); Type: FUNCTION; Schema: public; Owner: postgres
@@ -283,7 +282,7 @@ END
 $$;
 
 
---ALTER FUNCTION dvdrental.get_customer_balance(p_customer_id integer, p_effective_date timestamp without time zone) OWNER TO postgres;
+ALTER FUNCTION public.get_customer_balance(p_customer_id integer, p_effective_date timestamp without time zone) OWNER TO postgres;
 
 --
 -- Name: inventory_held_by_customer(integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -305,7 +304,7 @@ BEGIN
 END $$;
 
 
---ALTER FUNCTION dvdrental.inventory_held_by_customer(p_inventory_id integer) OWNER TO postgres;
+ALTER FUNCTION public.inventory_held_by_customer(p_inventory_id integer) OWNER TO postgres;
 
 --
 -- Name: inventory_in_stock(integer); Type: FUNCTION; Schema: public; Owner: postgres
@@ -342,7 +341,7 @@ BEGIN
 END $$;
 
 
---ALTER FUNCTION dvdrental.inventory_in_stock(p_inventory_id integer) OWNER TO postgres;
+ALTER FUNCTION public.inventory_in_stock(p_inventory_id integer) OWNER TO postgres;
 
 --
 -- Name: last_day(timestamp without time zone); Type: FUNCTION; Schema: public; Owner: postgres
@@ -353,14 +352,14 @@ CREATE FUNCTION last_day(timestamp without time zone) RETURNS date
     AS $_$
   SELECT CASE
     WHEN EXTRACT(MONTH FROM $1) = 12 THEN
-      (((EXTRACT(YEAR FROM $1) + 1) operator(dvdrental.||) '-01-01')::date - INTERVAL '1 day')::date
+      (((EXTRACT(YEAR FROM $1) + 1) operator(pg_catalog.||) '-01-01')::date - INTERVAL '1 day')::date
     ELSE
-      ((EXTRACT(YEAR FROM $1) operator(dvdrental.||) '-' operator(dvdrental.||) (EXTRACT(MONTH FROM $1) + 1) operator(dvdrental.||) '-01')::date - INTERVAL '1 day')::date
+      ((EXTRACT(YEAR FROM $1) operator(pg_catalog.||) '-' operator(pg_catalog.||) (EXTRACT(MONTH FROM $1) + 1) operator(pg_catalog.||) '-01')::date - INTERVAL '1 day')::date
     END
 $_$;
 
 
---ALTER FUNCTION dvdrental.last_day(timestamp without time zone) OWNER TO postgres;
+ALTER FUNCTION public.last_day(timestamp without time zone) OWNER TO postgres;
 
 --
 -- Name: last_updated(); Type: FUNCTION; Schema: public; Owner: postgres
@@ -375,7 +374,7 @@ BEGIN
 END $$;
 
 
---ALTER FUNCTION dvdrental.last_updated() OWNER TO postgres;
+ALTER FUNCTION public.last_updated() OWNER TO postgres;
 
 --
 -- Name: customer_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -389,7 +388,7 @@ CREATE SEQUENCE customer_customer_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.customer_customer_id_seq OWNER TO postgres;
+ALTER TABLE public.customer_customer_id_seq OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -413,7 +412,7 @@ CREATE TABLE customer (
 );
 
 
---ALTER TABLE dvdrental.customer OWNER TO postgres;
+ALTER TABLE public.customer OWNER TO postgres;
 
 --
 -- Name: rewards_report(integer, numeric); Type: FUNCTION; Schema: public; Owner: postgres
@@ -477,7 +476,7 @@ END
 $_$;
 
 
---ALTER FUNCTION dvdrental.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric) OWNER TO postgres;
+ALTER FUNCTION public.rewards_report(min_monthly_purchases integer, min_dollar_amount_purchased numeric) OWNER TO postgres;
 
 --
 -- Name: group_concat(text); Type: AGGREGATE; Schema: public; Owner: postgres
@@ -489,7 +488,7 @@ CREATE AGGREGATE group_concat(text) (
 );
 
 
---ALTER AGGREGATE dvdrental.group_concat(text) OWNER TO postgres;
+ALTER AGGREGATE public.group_concat(text) OWNER TO postgres;
 
 --
 -- Name: actor_actor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -503,7 +502,7 @@ CREATE SEQUENCE actor_actor_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.actor_actor_id_seq OWNER TO postgres;
+ALTER TABLE public.actor_actor_id_seq OWNER TO postgres;
 
 --
 -- Name: actor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -517,7 +516,7 @@ CREATE TABLE actor (
 );
 
 
---ALTER TABLE dvdrental.actor OWNER TO postgres;
+ALTER TABLE public.actor OWNER TO postgres;
 
 --
 -- Name: category_category_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -531,7 +530,7 @@ CREATE SEQUENCE category_category_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.category_category_id_seq OWNER TO postgres;
+ALTER TABLE public.category_category_id_seq OWNER TO postgres;
 
 --
 -- Name: category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -544,7 +543,7 @@ CREATE TABLE category (
 );
 
 
---ALTER TABLE dvdrental.category OWNER TO postgres;
+ALTER TABLE public.category OWNER TO postgres;
 
 --
 -- Name: film_film_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -558,7 +557,7 @@ CREATE SEQUENCE film_film_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.film_film_id_seq OWNER TO postgres;
+ALTER TABLE public.film_film_id_seq OWNER TO postgres;
 
 --
 -- Name: film; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -581,7 +580,7 @@ CREATE TABLE film (
 );
 
 
---ALTER TABLE dvdrental.film OWNER TO postgres;
+ALTER TABLE public.film OWNER TO postgres;
 
 --
 -- Name: film_actor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -594,7 +593,7 @@ CREATE TABLE film_actor (
 );
 
 
---ALTER TABLE dvdrental.film_actor OWNER TO postgres;
+ALTER TABLE public.film_actor OWNER TO postgres;
 
 --
 -- Name: film_category; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -607,7 +606,7 @@ CREATE TABLE film_category (
 );
 
 
---ALTER TABLE dvdrental.film_category OWNER TO postgres;
+ALTER TABLE public.film_category OWNER TO postgres;
 
 --
 -- Name: actor_info; Type: VIEW; Schema: public; Owner: postgres
@@ -617,7 +616,7 @@ CREATE VIEW actor_info AS
     SELECT a.actor_id, a.first_name, a.last_name, group_concat(DISTINCT (((c.name)::text || ': '::text) || (SELECT group_concat((f.title)::text) AS group_concat FROM ((film f JOIN film_category fc ON ((f.film_id = fc.film_id))) JOIN film_actor fa ON ((f.film_id = fa.film_id))) WHERE ((fc.category_id = c.category_id) AND (fa.actor_id = a.actor_id)) GROUP BY fa.actor_id))) AS film_info FROM (((actor a LEFT JOIN film_actor fa ON ((a.actor_id = fa.actor_id))) LEFT JOIN film_category fc ON ((fa.film_id = fc.film_id))) LEFT JOIN category c ON ((fc.category_id = c.category_id))) GROUP BY a.actor_id, a.first_name, a.last_name;
 
 
---ALTER TABLE dvdrental.actor_info OWNER TO postgres;
+ALTER TABLE public.actor_info OWNER TO postgres;
 
 --
 -- Name: address_address_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -631,7 +630,7 @@ CREATE SEQUENCE address_address_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.address_address_id_seq OWNER TO postgres;
+ALTER TABLE public.address_address_id_seq OWNER TO postgres;
 
 --
 -- Name: address; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -649,7 +648,7 @@ CREATE TABLE address (
 );
 
 
---ALTER TABLE dvdrental.address OWNER TO postgres;
+ALTER TABLE public.address OWNER TO postgres;
 
 --
 -- Name: city_city_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -663,7 +662,7 @@ CREATE SEQUENCE city_city_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.city_city_id_seq OWNER TO postgres;
+ALTER TABLE public.city_city_id_seq OWNER TO postgres;
 
 --
 -- Name: city; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -677,7 +676,7 @@ CREATE TABLE city (
 );
 
 
---ALTER TABLE dvdrental.city OWNER TO postgres;
+ALTER TABLE public.city OWNER TO postgres;
 
 --
 -- Name: country_country_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -691,7 +690,7 @@ CREATE SEQUENCE country_country_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.country_country_id_seq OWNER TO postgres;
+ALTER TABLE public.country_country_id_seq OWNER TO postgres;
 
 --
 -- Name: country; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -704,7 +703,7 @@ CREATE TABLE country (
 );
 
 
---ALTER TABLE dvdrental.country OWNER TO postgres;
+ALTER TABLE public.country OWNER TO postgres;
 
 --
 -- Name: customer_list; Type: VIEW; Schema: public; Owner: postgres
@@ -714,7 +713,7 @@ CREATE VIEW customer_list AS
     SELECT cu.customer_id AS id, (((cu.first_name)::text || ' '::text) || (cu.last_name)::text) AS name, a.address, a.postal_code AS "zip code", a.phone, city.city, country.country, CASE WHEN cu.activebool THEN 'active'::text ELSE ''::text END AS notes, cu.store_id AS sid FROM (((customer cu JOIN address a ON ((cu.address_id = a.address_id))) JOIN city ON ((a.city_id = city.city_id))) JOIN country ON ((city.country_id = country.country_id)));
 
 
---ALTER TABLE dvdrental.customer_list OWNER TO postgres;
+ALTER TABLE public.customer_list OWNER TO postgres;
 
 --
 -- Name: film_list; Type: VIEW; Schema: public; Owner: postgres
@@ -724,7 +723,7 @@ CREATE VIEW film_list AS
     SELECT film.film_id AS fid, film.title, film.description, category.name AS category, film.rental_rate AS price, film.length, film.rating, group_concat((((actor.first_name)::text || ' '::text) || (actor.last_name)::text)) AS actors FROM ((((category LEFT JOIN film_category ON ((category.category_id = film_category.category_id))) LEFT JOIN film ON ((film_category.film_id = film.film_id))) JOIN film_actor ON ((film.film_id = film_actor.film_id))) JOIN actor ON ((film_actor.actor_id = actor.actor_id))) GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;
 
 
---ALTER TABLE dvdrental.film_list OWNER TO postgres;
+ALTER TABLE public.film_list OWNER TO postgres;
 
 --
 -- Name: inventory_inventory_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -738,7 +737,7 @@ CREATE SEQUENCE inventory_inventory_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.inventory_inventory_id_seq OWNER TO postgres;
+ALTER TABLE public.inventory_inventory_id_seq OWNER TO postgres;
 
 --
 -- Name: inventory; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -752,7 +751,7 @@ CREATE TABLE inventory (
 );
 
 
---ALTER TABLE dvdrental.inventory OWNER TO postgres;
+ALTER TABLE public.inventory OWNER TO postgres;
 
 --
 -- Name: language_language_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -766,7 +765,7 @@ CREATE SEQUENCE language_language_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.language_language_id_seq OWNER TO postgres;
+ALTER TABLE public.language_language_id_seq OWNER TO postgres;
 
 --
 -- Name: language; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -779,7 +778,7 @@ CREATE TABLE language (
 );
 
 
---ALTER TABLE dvdrental.language OWNER TO postgres;
+ALTER TABLE public.language OWNER TO postgres;
 
 --
 -- Name: nicer_but_slower_film_list; Type: VIEW; Schema: public; Owner: postgres
@@ -789,7 +788,7 @@ CREATE VIEW nicer_but_slower_film_list AS
     SELECT film.film_id AS fid, film.title, film.description, category.name AS category, film.rental_rate AS price, film.length, film.rating, group_concat((((upper("substring"((actor.first_name)::text, 1, 1)) || lower("substring"((actor.first_name)::text, 2))) || upper("substring"((actor.last_name)::text, 1, 1))) || lower("substring"((actor.last_name)::text, 2)))) AS actors FROM ((((category LEFT JOIN film_category ON ((category.category_id = film_category.category_id))) LEFT JOIN film ON ((film_category.film_id = film.film_id))) JOIN film_actor ON ((film.film_id = film_actor.film_id))) JOIN actor ON ((film_actor.actor_id = actor.actor_id))) GROUP BY film.film_id, film.title, film.description, category.name, film.rental_rate, film.length, film.rating;
 
 
---ALTER TABLE dvdrental.nicer_but_slower_film_list OWNER TO postgres;
+ALTER TABLE public.nicer_but_slower_film_list OWNER TO postgres;
 
 --
 -- Name: payment_payment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -803,7 +802,7 @@ CREATE SEQUENCE payment_payment_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.payment_payment_id_seq OWNER TO postgres;
+ALTER TABLE public.payment_payment_id_seq OWNER TO postgres;
 
 --
 -- Name: payment; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -819,7 +818,7 @@ CREATE TABLE payment (
 );
 
 
---ALTER TABLE dvdrental.payment OWNER TO postgres;
+ALTER TABLE public.payment OWNER TO postgres;
 
 --
 -- Name: rental_rental_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -833,7 +832,7 @@ CREATE SEQUENCE rental_rental_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.rental_rental_id_seq OWNER TO postgres;
+ALTER TABLE public.rental_rental_id_seq OWNER TO postgres;
 
 --
 -- Name: rental; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -850,7 +849,7 @@ CREATE TABLE rental (
 );
 
 
---ALTER TABLE dvdrental.rental OWNER TO postgres;
+ALTER TABLE public.rental OWNER TO postgres;
 
 --
 -- Name: sales_by_film_category; Type: VIEW; Schema: public; Owner: postgres
@@ -860,7 +859,7 @@ CREATE VIEW sales_by_film_category AS
     SELECT c.name AS category, sum(p.amount) AS total_sales FROM (((((payment p JOIN rental r ON ((p.rental_id = r.rental_id))) JOIN inventory i ON ((r.inventory_id = i.inventory_id))) JOIN film f ON ((i.film_id = f.film_id))) JOIN film_category fc ON ((f.film_id = fc.film_id))) JOIN category c ON ((fc.category_id = c.category_id))) GROUP BY c.name ORDER BY sum(p.amount) DESC;
 
 
---ALTER TABLE dvdrental.sales_by_film_category OWNER TO postgres;
+ALTER TABLE public.sales_by_film_category OWNER TO postgres;
 
 --
 -- Name: staff_staff_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -874,7 +873,7 @@ CREATE SEQUENCE staff_staff_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.staff_staff_id_seq OWNER TO postgres;
+ALTER TABLE public.staff_staff_id_seq OWNER TO postgres;
 
 --
 -- Name: staff; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -895,7 +894,7 @@ CREATE TABLE staff (
 );
 
 
---ALTER TABLE dvdrental.staff OWNER TO postgres;
+ALTER TABLE public.staff OWNER TO postgres;
 
 --
 -- Name: store_store_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -909,7 +908,7 @@ CREATE SEQUENCE store_store_id_seq
     CACHE 1;
 
 
---ALTER TABLE dvdrental.store_store_id_seq OWNER TO postgres;
+ALTER TABLE public.store_store_id_seq OWNER TO postgres;
 
 --
 -- Name: store; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -923,7 +922,7 @@ CREATE TABLE store (
 );
 
 
---ALTER TABLE dvdrental.store OWNER TO postgres;
+ALTER TABLE public.store OWNER TO postgres;
 
 --
 -- Name: sales_by_store; Type: VIEW; Schema: public; Owner: postgres
@@ -933,7 +932,7 @@ CREATE VIEW sales_by_store AS
     SELECT (((c.city)::text || ','::text) || (cy.country)::text) AS store, (((m.first_name)::text || ' '::text) || (m.last_name)::text) AS manager, sum(p.amount) AS total_sales FROM (((((((payment p JOIN rental r ON ((p.rental_id = r.rental_id))) JOIN inventory i ON ((r.inventory_id = i.inventory_id))) JOIN store s ON ((i.store_id = s.store_id))) JOIN address a ON ((s.address_id = a.address_id))) JOIN city c ON ((a.city_id = c.city_id))) JOIN country cy ON ((c.country_id = cy.country_id))) JOIN staff m ON ((s.manager_staff_id = m.staff_id))) GROUP BY cy.country, c.city, s.store_id, m.first_name, m.last_name ORDER BY cy.country, c.city;
 
 
---ALTER TABLE dvdrental.sales_by_store OWNER TO postgres;
+ALTER TABLE public.sales_by_store OWNER TO postgres;
 
 --
 -- Name: staff_list; Type: VIEW; Schema: public; Owner: postgres
@@ -943,217 +942,217 @@ CREATE VIEW staff_list AS
     SELECT s.staff_id AS id, (((s.first_name)::text || ' '::text) || (s.last_name)::text) AS name, a.address, a.postal_code AS "zip code", a.phone, city.city, country.country, s.store_id AS sid FROM (((staff s JOIN address a ON ((s.address_id = a.address_id))) JOIN city ON ((a.city_id = city.city_id))) JOIN country ON ((city.country_id = country.country_id)));
 
 
---ALTER TABLE dvdrental.staff_list OWNER TO postgres;
+ALTER TABLE public.staff_list OWNER TO postgres;
 
 --
 -- Data for Name: actor; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY actor (actor_id, first_name, last_name, last_update) FROM stdin;
-\.
-COPY actor (actor_id, first_name, last_name, last_update) FROM '/home/mezzanine/dvdrental/2163.dat';
+
+
+\COPY actor (actor_id, first_name, last_name, last_update) FROM '2163.dat';
 
 --
 -- Name: actor_actor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('actor_actor_id_seq', 200, true);
+SELECT pg_catalog.setval('actor_actor_id_seq', 200, true);
 
 
 --
 -- Data for Name: address; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM stdin;
-\.
-COPY address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM '/home/mezzanine/dvdrental/2171.dat';
+
+
+\COPY address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM '2171.dat';
 
 --
 -- Name: address_address_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('address_address_id_seq', 605, true);
+SELECT pg_catalog.setval('address_address_id_seq', 605, true);
 
 
 --
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY category (category_id, name, last_update) FROM stdin;
-\.
-COPY category (category_id, name, last_update) FROM '/home/mezzanine/dvdrental/2165.dat';
+
+
+\COPY category (category_id, name, last_update) FROM '2165.dat';
 
 --
 -- Name: category_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('category_category_id_seq', 16, true);
+SELECT pg_catalog.setval('category_category_id_seq', 16, true);
 
 
 --
 -- Data for Name: city; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY city (city_id, city, country_id, last_update) FROM stdin;
-\.
-COPY city (city_id, city, country_id, last_update) FROM '/home/mezzanine/dvdrental/2173.dat';
+
+
+\COPY city (city_id, city, country_id, last_update) FROM '2173.dat';
 
 --
 -- Name: city_city_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('city_city_id_seq', 600, true);
+SELECT pg_catalog.setval('city_city_id_seq', 600, true);
 
 
 --
 -- Data for Name: country; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY country (country_id, country, last_update) FROM stdin;
-\.
-COPY country (country_id, country, last_update) FROM '/home/mezzanine/dvdrental/2175.dat';
+
+
+\COPY country (country_id, country, last_update) FROM '2175.dat';
 
 --
 -- Name: country_country_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('country_country_id_seq', 109, true);
+SELECT pg_catalog.setval('country_country_id_seq', 109, true);
 
 
 --
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY customer (customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active) FROM stdin;
-\.
-COPY customer (customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active) FROM '/home/mezzanine/dvdrental/2177.dat';
+
+
+\COPY customer (customer_id, store_id, first_name, last_name, email, address_id, activebool, create_date, last_update, active) FROM '2177.dat';
 
 --
 -- Name: customer_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('customer_customer_id_seq', 599, true);
+SELECT pg_catalog.setval('customer_customer_id_seq', 599, true);
 
 
 --
 -- Data for Name: film; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY film (film_id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, last_update, special_features, fulltext) FROM stdin;
-\.
-COPY film (film_id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, last_update, special_features, fulltext) FROM '/home/mezzanine/dvdrental/2167.dat';
+
+
+\COPY film (film_id, title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, last_update, special_features, fulltext) FROM '2167.dat';
 
 --
 -- Data for Name: film_actor; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY film_actor (actor_id, film_id, last_update) FROM stdin;
-\.
-COPY film_actor (actor_id, film_id, last_update) FROM '/home/mezzanine/dvdrental/2168.dat';
+
+
+\COPY film_actor (actor_id, film_id, last_update) FROM '2168.dat';
 
 --
 -- Data for Name: film_category; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY film_category (film_id, category_id, last_update) FROM stdin;
-\.
-COPY film_category (film_id, category_id, last_update) FROM '/home/mezzanine/dvdrental/2169.dat';
+
+
+\COPY film_category (film_id, category_id, last_update) FROM '2169.dat';
 
 --
 -- Name: film_film_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('film_film_id_seq', 1000, true);
+SELECT pg_catalog.setval('film_film_id_seq', 1000, true);
 
 
 --
 -- Data for Name: inventory; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY inventory (inventory_id, film_id, store_id, last_update) FROM stdin;
-\.
-COPY inventory (inventory_id, film_id, store_id, last_update) FROM '/home/mezzanine/dvdrental/2179.dat';
+
+
+\COPY inventory (inventory_id, film_id, store_id, last_update) FROM '2179.dat';
 
 --
 -- Name: inventory_inventory_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('inventory_inventory_id_seq', 4581, true);
+SELECT pg_catalog.setval('inventory_inventory_id_seq', 4581, true);
 
 
 --
 -- Data for Name: language; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY language (language_id, name, last_update) FROM stdin;
-\.
-COPY language (language_id, name, last_update) FROM '/home/mezzanine/dvdrental/2181.dat';
+
+
+\COPY language (language_id, name, last_update) FROM '2181.dat';
 
 --
 -- Name: language_language_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('language_language_id_seq', 6, true);
+SELECT pg_catalog.setval('language_language_id_seq', 6, true);
 
 
 --
 -- Data for Name: payment; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY payment (payment_id, customer_id, staff_id, rental_id, amount, payment_date) FROM stdin;
-\.
-COPY payment (payment_id, customer_id, staff_id, rental_id, amount, payment_date) FROM '/home/mezzanine/dvdrental/2183.dat';
+
+
+\COPY payment (payment_id, customer_id, staff_id, rental_id, amount, payment_date) FROM '2183.dat';
 
 --
 -- Name: payment_payment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('payment_payment_id_seq', 32098, true);
+SELECT pg_catalog.setval('payment_payment_id_seq', 32098, true);
 
 
 --
 -- Data for Name: rental; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY rental (rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_update) FROM stdin;
-\.
-COPY rental (rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_update) FROM '/home/mezzanine/dvdrental/2185.dat';
+
+
+\COPY rental (rental_id, rental_date, inventory_id, customer_id, return_date, staff_id, last_update) FROM '2185.dat';
 
 --
 -- Name: rental_rental_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('rental_rental_id_seq', 16049, true);
+SELECT pg_catalog.setval('rental_rental_id_seq', 16049, true);
 
 
 --
 -- Data for Name: staff; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY staff (staff_id, first_name, last_name, address_id, email, store_id, active, username, password, last_update, picture) FROM stdin;
-\.
-COPY staff (staff_id, first_name, last_name, address_id, email, store_id, active, username, password, last_update, picture) FROM '/home/mezzanine/dvdrental/2187.dat';
+
+
+\COPY staff (staff_id, first_name, last_name, address_id, email, store_id, active, username, password, last_update, picture) FROM '2187.dat';
 
 --
 -- Name: staff_staff_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('staff_staff_id_seq', 2, true);
+SELECT pg_catalog.setval('staff_staff_id_seq', 2, true);
 
 
 --
 -- Data for Name: store; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY store (store_id, manager_staff_id, address_id, last_update) FROM stdin;
-\.
-COPY store (store_id, manager_staff_id, address_id, last_update) FROM '/home/mezzanine/dvdrental/2189.dat';
+
+
+\COPY store (store_id, manager_staff_id, address_id, last_update) FROM '2189.dat';
 
 --
 -- Name: store_store_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT setval('store_store_id_seq', 2, true);
+SELECT pg_catalog.setval('store_store_id_seq', 2, true);
 
 
 --
@@ -1399,7 +1398,7 @@ CREATE UNIQUE INDEX idx_unq_rental_rental_date_inventory_id_customer_id ON renta
 -- Name: film_fulltext_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER film_fulltext_trigger BEFORE INSERT OR UPDATE ON film FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('fulltext', 'dvdrental.english', 'title', 'description');
+CREATE TRIGGER film_fulltext_trigger BEFORE INSERT OR UPDATE ON film FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('fulltext', 'pg_catalog.english', 'title', 'description');
 
 
 --
